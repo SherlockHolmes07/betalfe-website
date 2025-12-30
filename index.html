@@ -2,14 +2,38 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Betal-FE • Experimental frontend framework</title>
+    <link rel="icon" type="image/png" href="/betallogo.png" />
+    <title>Betal-FE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
-      html {
-        scroll-behavior: smooth;
+      /* Custom Prism theme - black background */
+      pre[class*="language-"],
+      code[class*="language-"] {
+        background: #000 !important;
+        color: #e5e7eb !important;
       }
+      
+      .token.comment { color: #6b7280; }
+      .token.keyword { color: #c084fc; }
+      .token.string { color: #4ade80; }
+      .token.function { color: #60a5fa; }
+      .token.number { color: #fb923c; }
+      .token.operator { color: #8b5cf6; }
+      .token.punctuation { color: #9ca3af; }
+      .token.class-name { color: #fbbf24; }
+      .token.tag { color: #f87171; }
+      .token.attr-name { color: #60a5fa; }
+      .token.attr-value { color: #4ade80; }
+      .token.property { color: #60a5fa; }
     </style>
+
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   </head>
 
   <body class="bg-black text-neutral-100">

@@ -19,6 +19,6 @@
     "vite": "^7.3.0"
   },
   "dependencies": {
-    "betal-fe": "^4.0.1"
+    "betal-fe": "^4.4.0"
   }
 }
