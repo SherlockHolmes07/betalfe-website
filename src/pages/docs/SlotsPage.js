@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'betal-fe';
+import { Section, Para, Code, CodeBlock, BulletList, Strong } from '../../components/docs/DocElements.js';
 
 export const SlotsPage = defineComponent({
   onMounted() {
@@ -8,18 +9,16 @@ export const SlotsPage = defineComponent({
   render() {
     return h("article", { class: "prose prose-invert max-w-none" }, [
       h("h1", { class: "text-3xl font-bold tracking-tight text-white sm:text-4xl" }, ["Slots"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Para(
         "Slots allow you to pass content into components, making them flexible and reusable. Instead of just passing data via props, you can pass entire chunks of UI."
-      ]),
+      ),
 
       // The Problem Slots Solve
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["The Problem Slots Solve"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("The Problem Slots Solve"),
+      Para(
         "Imagine building a Card component. You want a consistent card style, but different content inside each card:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      CodeBlock(
 `// Without slots, you'd need many specific props
 h(Card, { 
   title: "Welcome",
@@ -27,38 +26,30 @@ h(Card, {
   body: "Some text here...",
   footerText: "Learn more"
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "This gets messy quickly. What if you want an icon in the title? A button in the footer? Multiple paragraphs? You'd need more and more props."
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Slots solve this elegantly:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Slots solve this elegantly:"),
+      CodeBlock(
 `h(Card, {}, [
   h("h2", {}, ["Welcome"]),
   h("p", {}, ["Get started with our platform."]),
   h("button", {}, ["Learn more"])
 ]);`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "Now the Card component provides the wrapper and styling, while you provide whatever content you want."
-      ]),
+      ),
 
       // Using Slots
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Using Slots"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Using Slots"),
+      Para(
         "To accept slotted content, use the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["hSlot"]),
+        Code("hSlot"),
         " function in your component:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      CodeBlock(
 `import { defineComponent, h, hSlot } from "betal-fe";
 
 const Card = defineComponent({
@@ -68,36 +59,28 @@ const Card = defineComponent({
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Now when you use the Card:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Now when you use the Card:"),
+      CodeBlock(
 `h(Card, {}, [
   h("h2", {}, ["My Title"]),
   h("p", {}, ["My content goes here."])
 ]);`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "The ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["h2"]),
+        Code("h2"),
         " and ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["p"]),
+        Code("p"),
         " elements render where ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["hSlot()"]),
+        Code("hSlot()"),
         " is placed."
-      ]),
+      ),
 
       // Default Slot Content
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Default Slot Content"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["You can provide fallback content that shows when no content is passed:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Default Slot Content"),
+      Para("You can provide fallback content that shows when no content is passed:"),
+      CodeBlock(
 `const Button = defineComponent({
   render() {
     return h("button", { class: "btn" }, [
@@ -107,13 +90,9 @@ const Card = defineComponent({
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Using this component:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Using this component:"),
+      CodeBlock(
 `// Uses default content - shows "Click me"
 h(Button)
 
@@ -122,21 +101,17 @@ h(Button, {}, [
   h("span", { class: "icon" }, ["🚀"]),
   h("span", {}, ["Launch"])
 ])`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "The array passed to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["hSlot()"]),
+        Code("hSlot()"),
         " is the fallback content. It only renders when no children are provided to the component."
-      ]),
+      ),
 
       // Practical Example: Alert Component
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Practical Example: Alert Component"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Here's a practical Alert component using slots:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Practical Example: Alert Component"),
+      Para("Here's a practical Alert component using slots:"),
+      CodeBlock(
 `const Alert = defineComponent({
   render() {
     const { type = "info" } = this.props;
@@ -148,13 +123,9 @@ h(Button, {}, [
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Usage with different content:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Usage with different content:"),
+      CodeBlock(
 `// Simple text
 h(Alert, { type: "success" }, [
   h("p", {}, ["Your changes have been saved."])
@@ -166,16 +137,12 @@ h(Alert, { type: "error" }, [
   h("p", {}, ["Something went wrong. Please try again."]),
   h("button", { on: { click: () => retry() } }, ["Retry"])
 ])`
-          ])
-        ])
-      ]),
+      ),
 
       // Building Wrapper Components
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Building Wrapper Components"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Slots are perfect for wrapper components that provide consistent structure:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Building Wrapper Components"),
+      Para("Slots are perfect for wrapper components that provide consistent structure:"),
+      CodeBlock(
 `const Panel = defineComponent({
   render() {
     return h("div", { class: "panel" }, [
@@ -188,13 +155,9 @@ h(Alert, { type: "error" }, [
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Usage:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Usage:"),
+      CodeBlock(
 `h(Panel, { title: "User Settings" }, [
   h("label", {}, ["Username"]),
   h("input", { type: "text", value: "john_doe" }),
@@ -202,19 +165,15 @@ h(Alert, { type: "error" }, [
   h("input", { type: "email", value: "john@example.com" }),
   h("button", {}, ["Save"])
 ])`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "The Panel handles the header styling and structure, while you control what goes in the body."
-      ]),
+      ),
 
       // Modal Component Example
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Modal Component Example"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["A modal is a great use case for slots:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Modal Component Example"),
+      Para("A modal is a great use case for slots:"),
+      CodeBlock(
 `const Modal = defineComponent({
   render() {
     if (!this.props.isOpen) return null;
@@ -235,13 +194,9 @@ h(Alert, { type: "error" }, [
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Usage:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Usage:"),
+      CodeBlock(
 `h(Modal, { 
   isOpen: this.state.showModal, 
   title: "Confirm Delete",
@@ -257,81 +212,51 @@ h(Alert, { type: "error" }, [
     }, ["Delete"])
   ])
 ])`
-          ])
-        ])
-      ]),
+      ),
 
       // Slots vs Props
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Slots vs Props"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Slots vs Props"),
+      Para(
         "Use ",
-        h("strong", { class: "font-semibold text-white" }, ["props"]),
+        Strong("props"),
         " when:"
-      ]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Passing simple data (strings, numbers, booleans)"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["The component decides how to render the data"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["You have a fixed, predictable structure"])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      BulletList(
+        "Passing simple data (strings, numbers, booleans)",
+        "The component decides how to render the data",
+        "You have a fixed, predictable structure"
+      ),
+      Para(
         "Use ",
-        h("strong", { class: "font-semibold text-white" }, ["slots"]),
+        Strong("slots"),
         " when:"
-      ]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["The parent should control the structure"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["You need flexibility in what gets rendered"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["You're building \"container\" components (cards, modals, panels)"])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["For example, a user avatar might use props:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-            `h(Avatar, { name: "John", imageUrl: "/john.jpg", size: "large" })`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["But a dropdown menu would use slots:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      BulletList(
+        "The parent should control the structure",
+        "You need flexibility in what gets rendered",
+        "You're building \"container\" components (cards, modals, panels)"
+      ),
+      Para("For example, a user avatar might use props:"),
+      CodeBlock(
+        `h(Avatar, { name: "John", imageUrl: "/john.jpg", size: "large" })`
+      ),
+      Para("But a dropdown menu would use slots:"),
+      CodeBlock(
 `h(Dropdown, { trigger: "Click me" }, [
   h("a", { href: "/profile" }, ["Profile"]),
   h("a", { href: "/settings" }, ["Settings"]),
   h("hr"),
   h("a", { href: "/logout" }, ["Logout"])
 ])`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "The parent controls what menu items appear and how they look."
-      ]),
+      ),
 
       // Combining Props and Slots
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Combining Props and Slots"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Most real components use both props and slots:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Combining Props and Slots"),
+      Para("Most real components use both props and slots:"),
+      CodeBlock(
 `const Accordion = defineComponent({
   state() {
     return { isOpen: false };
@@ -358,13 +283,9 @@ h(Alert, { type: "error" }, [
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Usage:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      Para("Usage:"),
+      CodeBlock(
 `h(Accordion, { title: "Frequently Asked Questions" }, [
   h("dl", {}, [
     h("dt", {}, ["What is Betal-FE?"]),
@@ -373,34 +294,20 @@ h(Alert, { type: "error" }, [
     h("dd", {}, ["Yes!"])
   ])
 ])`
-          ])
-        ])
-      ]),
+      ),
 
       // Summary
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Summary"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Slots make your components flexible:"]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Use ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["hSlot()"]), " in your component where children should render"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Pass fallback content as an array: ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["hSlot([...fallbackElements])"])])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Children passed to your component automatically fill the slot"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Combine with props for maximum flexibility"])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Summary"),
+      Para("Slots make your components flexible:"),
+      BulletList(
+        ["Use ", Code("hSlot()"), " in your component where children should render"],
+        ["Pass fallback content as an array: ", Code("hSlot([...fallbackElements])")],
+        "Children passed to your component automatically fill the slot",
+        "Combine with props for maximum flexibility"
+      ),
+      Para(
         "The power of slots is composition. You build small, focused components and combine them in ways the component author didn't need to anticipate. This leads to more reusable code and cleaner architecture."
-      ]),
+      ),
 
       // Navigation
       h("div", { class: "mt-10 flex gap-4" }, [
