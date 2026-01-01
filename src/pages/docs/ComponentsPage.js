@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'betal-fe';
+import { Section, Para, Strong, Code, BulletList, NumberedList, ListItemWithBold, CodeBlock, Subsection } from '../../components/docs/DocElements.js';
 
 export const ComponentsPage = defineComponent({
   onMounted() {
@@ -8,129 +9,52 @@ export const ComponentsPage = defineComponent({
   render() {
     return h("article", { class: "prose prose-invert max-w-none" }, [
       h("h1", { class: "text-3xl font-bold tracking-tight text-white sm:text-4xl" }, ["Components"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Components are the foundation of every Betal-FE application. This section will teach you how to think about components, build reusable ones, and compose them together to create complex user interfaces."
-      ]),
+      Para("Components are the foundation of every Betal-FE application. This section will teach you how to think about components, build reusable ones, and compose them together to create complex user interfaces."),
 
-      // What is a Component?
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["What is a Component?"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "A component is a self-contained piece of UI. It has its own structure (what it looks like), behavior (how it responds to interactions), and often its own data (state)."
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Think about a typical web page - it might have a header, a sidebar, a main content area, and a footer. Each of these can be a component. The header might contain a logo component and a navigation component. Components can be nested inside other components, forming a tree structure."
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["This approach has several benefits:"]),
-      h("ol", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-3" }, [
-          h("span", { class: "font-semibold text-primary" }, ["1."]),
-          h("span", {}, [h("strong", { class: "font-semibold text-white" }, ["Reusability"]), " - Build a button component once, use it everywhere"])
-        ]),
-        h("li", { class: "flex gap-3" }, [
-          h("span", { class: "font-semibold text-primary" }, ["2."]),
-          h("span", {}, [h("strong", { class: "font-semibold text-white" }, ["Organization"]), " - Each component is a separate, focused piece of code"])
-        ]),
-        h("li", { class: "flex gap-3" }, [
-          h("span", { class: "font-semibold text-primary" }, ["3."]),
-          h("span", {}, [h("strong", { class: "font-semibold text-white" }, ["Maintainability"]), " - Changes to one component don't affect others"])
-        ]),
-        h("li", { class: "flex gap-3" }, [
-          h("span", { class: "font-semibold text-primary" }, ["4."]),
-          h("span", {}, [h("strong", { class: "font-semibold text-white" }, ["Testability"]), " - Components can be tested in isolation"])
-        ])
-      ]),
+      Section("What is a Component?"),
+      Para("A component is a self-contained piece of UI. It has its own structure (what it looks like), behavior (how it responds to interactions), and often its own data (state)."),
+      Para("Think about a typical web page - it might have a header, a sidebar, a main content area, and a footer. Each of these can be a component. The header might contain a logo component and a navigation component. Components can be nested inside other components, forming a tree structure."),
+      Para("This approach has several benefits:"),
+      NumberedList(
+        ListItemWithBold("Reusability", "Build a button component once, use it everywhere"),
+        ListItemWithBold("Organization", "Each component is a separate, focused piece of code"),
+        ListItemWithBold("Maintainability", "Changes to one component don't affect others"),
+        ListItemWithBold("Testability", "Components can be tested in isolation")
+      ),
 
-      // Creating Components
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Creating Components"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Every component is created using ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["defineComponent"]),
-        ":"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Greeting = defineComponent({
+      Section("Creating Components"),
+      Para("Every component is created using ", Code("defineComponent"), ":"),
+      CodeBlock(`const Greeting = defineComponent({
   render() {
     return h("p", {}, ["Hello, welcome to our site!"]);
   }
-});`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "The ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["render"]),
-        " method is the only required part of a component. It tells Betal-FE what to display."
-      ]),
+});`),
+      Para("The ", Code("render"), " method is the only required part of a component. It tells Betal-FE what to display."),
 
-      // Using Components
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Using Components"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Once you've defined a component, you can use it inside other components by passing it to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["h()"]),
-        ":"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const App = defineComponent({
+      Section("Using Components"),
+      Para("Once you've defined a component, you can use it inside other components by passing it to ", Code("h()"), ":"),
+      CodeBlock(`const App = defineComponent({
   render() {
     return h("div", {}, [
       h(Greeting),
       h("p", {}, ["More content here..."])
     ]);
   }
-});`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Notice that instead of a string like \"div\" or \"p\", we pass the component itself (",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["Greeting"]),
-        ") as the first argument to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["h()"]),
-        "."
-      ]),
+});`),
+      Para("Notice that instead of a string like \"div\" or \"p\", we pass the component itself (", Code("Greeting"), ") as the first argument to ", Code("h()"), "."),
 
-      // Props: Passing Data to Components
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Props: Passing Data to Components"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Components become truly powerful when you can pass data to them. This is done through ",
-        h("strong", { class: "font-semibold text-white" }, ["props"]),
-        " (short for properties)."
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "When using a component, you pass props as the second argument to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["h()"]),
-        ":"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [`h(Greeting, { name: "Alice" })`])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Inside the component, you access props through ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["this.props"]),
-        ":"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Greeting = defineComponent({
+      Section("Props: Passing Data to Components"),
+      Para("Components become truly powerful when you can pass data to them. This is done through ", Strong("props"), " (short for properties)."),
+      Para("When using a component, you pass props as the second argument to ", Code("h()"), ":"),
+      CodeBlock(`h(Greeting, { name: "Alice" })`),
+      Para("Inside the component, you access props through ", Code("this.props"), ":"),
+      CodeBlock(`const Greeting = defineComponent({
   render() {
     return h("p", {}, [\`Hello, \${this.props.name}!\`]);
   }
-});`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Now you can reuse this component with different names:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const App = defineComponent({
+});`),
+      Para("Now you can reuse this component with different names:"),
+      CodeBlock(`const App = defineComponent({
   render() {
     return h("div", {}, [
       h(Greeting, { name: "Alice" }),
@@ -138,46 +62,20 @@ export const ComponentsPage = defineComponent({
       h(Greeting, { name: "Charlie" })
     ]);
   }
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      // Props are Read-Only
-      h("h3", { class: "mt-8 text-xl font-semibold text-white" }, ["Props are Read-Only"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "An important rule: ",
-        h("strong", { class: "font-semibold text-white" }, ["never modify props directly"]),
-        ". Props flow down from parent to child, and the child should treat them as read-only."
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`// ❌ Never do this
+      Subsection("Props are Read-Only"),
+      Para("An important rule: ", Strong("never modify props directly"), ". Props flow down from parent to child, and the child should treat them as read-only."),
+      CodeBlock(`// ❌ Never do this
 this.props.name = "New Name";
 
 // ✅ Props are for reading only
-const name = this.props.name;`
-          ])
-        ])
-      ]),
+const name = this.props.name;`),
 
-      // State: Data That Changes
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["State: Data That Changes"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "While props are passed from parent to child, ",
-        h("strong", { class: "font-semibold text-white" }, ["state"]),
-        " is data that a component manages internally. When state changes, Betal-FE automatically re-renders the component."
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "To add state to a component, define a ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["state"]),
-        " method that returns an object:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Counter = defineComponent({
+      Section("State: Data That Changes"),
+      Para("While props are passed from parent to child, ", Strong("state"), " is data that a component manages internally. When state changes, Betal-FE automatically re-renders the component."),
+      Para("To add state to a component, define a ", Code("state"), " method that returns an object:"),
+      CodeBlock(`const Counter = defineComponent({
   state() {
     return { count: 0 };
   },
@@ -187,54 +85,23 @@ const name = this.props.name;`
       h("p", {}, [\`Count: \${this.state.count}\`])
     ]);
   }
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      // Initializing State from Props
-      h("h3", { class: "mt-8 text-xl font-semibold text-white" }, ["Initializing State from Props"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "The ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["state"]),
-        " method receives props as its first parameter, allowing you to use props to set initial state:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Counter = defineComponent({
+      Subsection("Initializing State from Props"),
+      Para("The ", Code("state"), " method receives props as its first parameter, allowing you to use props to set initial state:"),
+      CodeBlock(`const Counter = defineComponent({
   state(props) {
     return {
       count: props.initialCount || 0
     };
   },
   // ...
-});`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        h("strong", { class: "font-semibold text-white" }, ["Note:"]),
-        " This only sets the ",
-        h("em", { class: "italic" }, ["initial"]),
-        " state. If the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["initialCount"]),
-        " prop changes later, the state won't automatically update. Use the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["onPropsChange"]),
-        " lifecycle hook if you need to respond to prop changes."
-      ]),
+});`),
+      Para(Strong("Note:"), " This only sets the ", h("em", { class: "italic" }, ["initial"]), " state. If the ", Code("initialCount"), " prop changes later, the state won't automatically update. Use the ", Code("onPropsChange"), " lifecycle hook if you need to respond to prop changes."),
 
-      // Updating State
-      h("h3", { class: "mt-8 text-xl font-semibold text-white" }, ["Updating State"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "To change state, call ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["this.updateState()"]),
-        " with an object containing the properties you want to update:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Counter = defineComponent({
+      Subsection("Updating State"),
+      Para("To change state, call ", Code("this.updateState()"), " with an object containing the properties you want to update:"),
+      CodeBlock(`const Counter = defineComponent({
   state() {
     return { count: 0 };
   },
@@ -247,65 +114,32 @@ const name = this.props.name;`
       }, ["Increment"])
     ]);
   }
-});`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "When you call ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["updateState"]),
-        ", Betal-FE merges the new values into the current state, re-runs the render method, and updates only the parts of the DOM that changed."
-      ]),
+});`),
+      Para("When you call ", Code("updateState"), ", Betal-FE merges the new values into the current state, re-runs the render method, and updates only the parts of the DOM that changed."),
 
-      // State Update Rules
-      h("h3", { class: "mt-8 text-xl font-semibold text-white" }, ["State Update Rules"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Always use ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["updateState"]),
-        " to modify state. Never mutate state directly:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`// ❌ Wrong - Betal-FE won't know to re-render
+      Subsection("State Update Rules"),
+      Para("Always use ", Code("updateState"), " to modify state. Never mutate state directly:"),
+      CodeBlock(`// ❌ Wrong - Betal-FE won't know to re-render
 this.state.count = 5;
 
 // ✅ Correct - triggers a re-render
-this.updateState({ count: 5 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["When updating arrays or objects in state, create new copies instead of mutating:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`// ❌ Wrong - mutating the existing array
+this.updateState({ count: 5 });`),
+      Para("When updating arrays or objects in state, create new copies instead of mutating:"),
+      CodeBlock(`// ❌ Wrong - mutating the existing array
 this.state.items.push(newItem);
 
 // ✅ Correct - creating a new array
 this.updateState({ 
   items: [...this.state.items, newItem] 
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      // Props vs State
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Props vs State: When to Use Each"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["This is a common source of confusion for beginners. Here's a simple rule:"]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("strong", { class: "font-semibold text-white" }, ["Props"]), " are for data that comes from a parent component"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("strong", { class: "font-semibold text-white" }, ["State"]), " is for data that the component manages itself"])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Ask yourself: \"Where does this data come from?\" If it's passed from above, it's a prop. If the component creates and manages it, it's state."
-      ]),
+      Section("Props vs State: When to Use Each"),
+      Para("This is a common source of confusion for beginners. Here's a simple rule:"),
+      BulletList(
+        [Strong("Props"), " are for data that comes from a parent component"],
+        [Strong("State"), " is for data that the component manages itself"]
+      ),
+      Para("Ask yourself: \"Where does this data come from?\" If it's passed from above, it's a prop. If the component creates and manages it, it's state."),
 
       // Defining Methods
       h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Defining Methods"]),

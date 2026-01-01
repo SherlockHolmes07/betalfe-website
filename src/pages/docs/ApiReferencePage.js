@@ -1,4 +1,30 @@
 import { defineComponent, h } from 'betal-fe';
+import { Section, Subsection, Para, Code, CodeBlock, BulletList } from '../../components/docs/DocElements.js';
+
+// Additional DocElements for this page
+const Title = (text) => h("h1", { class: "text-3xl font-bold tracking-tight text-white sm:text-4xl" }, [text]);
+const SubSubsection = (content) => h("h4", { class: "mt-4 text-lg font-semibold text-white" }, [content]);
+const Divider = () => h("hr", { class: "my-10 border-neutral-800" });
+const Table = (headers, rows) => h("div", { class: "mt-4 overflow-x-auto" }, [
+  h("table", { class: "min-w-full text-sm" }, [
+    h("thead", {}, [
+      h("tr", { class: "border-b border-neutral-800" }, 
+        headers.map(header => h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, [header]))
+      )
+    ]),
+    h("tbody", {}, 
+      rows.map(row => h("tr", { class: "border-b border-neutral-800/50" }, 
+        row.map((cell, i) => h("td", { 
+          class: i === 0 ? "py-2 pr-4 font-mono text-primary" : 
+                 (i === 1 && row.length === 3) ? "py-2 pr-4 text-neutral-400" : 
+                 (i === 1 && row.length === 2) ? "py-2 text-neutral-300" :
+                 (i === 2 && row.length === 4) ? "py-2 pr-4 text-neutral-400" :
+                 "py-2 text-neutral-300" 
+        }, [cell]))
+      ))
+    )
+  ])
+]);
 
 export const ApiReferencePage = defineComponent({
   onMounted() {
@@ -7,203 +33,83 @@ export const ApiReferencePage = defineComponent({
 
   render() {
     return h("article", { class: "prose prose-invert max-w-none" }, [
-      h("h1", { class: "text-3xl font-bold tracking-tight text-white sm:text-4xl" }, ["API Reference"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "This is a complete reference of all functions and components exported by Betal-FE."
-      ]),
+      Title("API Reference"),
+      Para("This is a complete reference of all functions and components exported by Betal-FE."),
 
       // createBetalApp
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["createBetalApp"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Creates and returns an application instance."]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { createBetalApp } from "betal-fe";
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["createBetalApp"])),
+      Para("Creates and returns an application instance."),
+      CodeBlock(`import { createBetalApp } from "betal-fe";
 
-const app = createBetalApp(RootComponent);`
-          ])
-        ])
-      ]),
+const app = createBetalApp(RootComponent);`),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Parameters"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Parameter"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["RootComponent"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["Component"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["The root component to render"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["props"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Props to pass to root component (optional)"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["options"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Options like router configuration (optional)"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Parameters"),
+      Table(
+        ["Parameter", "Type", "Description"],
+        [
+          ["RootComponent", "Component", "The root component to render"],
+          ["props", "object", "Props to pass to root component (optional)"],
+          ["options", "object", "Options like router configuration (optional)"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Returns"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["An app instance with the following methods:"]),
+      Subsection("Returns"),
+      Para("An app instance with the following methods:"),
 
-      h("h4", { class: "mt-4 text-lg font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-base font-mono text-primary" }, ["app.mount(container)"])
-      ]),
-      h("p", { class: "mt-2 leading-7 text-neutral-300" }, ["Mounts the application to a DOM element."]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const app = createBetalApp(App);
-app.mount(document.getElementById("app"));`
-          ])
-        ])
-      ]),
+      SubSubsection(Code("app.mount(container)")),
+      Para("Mounts the application to a DOM element."),
+      CodeBlock(`const app = createBetalApp(App);
+app.mount(document.getElementById("app"));`),
 
-      h("h4", { class: "mt-4 text-lg font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-base font-mono text-primary" }, ["app.unmount()"])
-      ]),
-      h("p", { class: "mt-2 leading-7 text-neutral-300" }, ["Unmounts the application and cleans up resources."]),
+      SubSubsection(Code("app.unmount()")),
+      Para("Unmounts the application and cleans up resources."),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // defineComponent
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["defineComponent"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Defines a component with lifecycle, state, and render logic."]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { defineComponent } from "betal-fe";
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["defineComponent"])),
+      Para("Defines a component with lifecycle, state, and render logic."),
+      CodeBlock(`import { defineComponent } from "betal-fe";
 
 const MyComponent = defineComponent({
   // Component definition
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Component Definition Object"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Property"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["state"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Returns initial local state object"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["render"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Returns virtual DOM tree"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["onMounted"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Called after component is added to DOM"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["onUnmounted"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Called before component is removed"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["onStateChange"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Called after local state updates"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["onPropsChange"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Called when props change"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Component Definition Object"),
+      Table(
+        ["Property", "Type", "Description"],
+        [
+          ["state", "function", "Returns initial local state object"],
+          ["render", "function", "Returns virtual DOM tree"],
+          ["onMounted", "function", "Called after component is added to DOM"],
+          ["onUnmounted", "function", "Called before component is removed"],
+          ["onStateChange", "function", "Called after local state updates"],
+          ["onPropsChange", "function", "Called when props change"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Instance Properties"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Available via ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["this"]),
-        " inside component methods:"
-      ]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Property"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["this.props"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Props passed by parent"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["this.state"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Current local state"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["this.appContext"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Application context (contains router)"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Instance Properties"),
+      Para("Available via ", Code("this"), " inside component methods:"),
+      Table(
+        ["Property", "Type", "Description"],
+        [
+          ["this.props", "object", "Props passed by parent"],
+          ["this.state", "object", "Current local state"],
+          ["this.appContext", "object", "Application context (contains router)"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Instance Methods"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Method"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["this.updateState(newState)"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Merges new state and triggers re-render"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["this.emit(eventName, payload)"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Emits custom event to parent"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Instance Methods"),
+      Table(
+        ["Method", "Description"],
+        [
+          ["this.updateState(newState)", "Merges new state and triggers re-render"],
+          ["this.emit(eventName, payload)", "Emits custom event to parent"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Example"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Counter = defineComponent({
+      Subsection("Example"),
+      CodeBlock(`const Counter = defineComponent({
   state() {
     return { count: 0 };
   },
@@ -230,104 +136,40 @@ const MyComponent = defineComponent({
       h("button", { on: { click: () => this.increment() } }, ["+"])
     ]);
   }
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // h function
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["h"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Creates a virtual DOM node (element, component, or text)."]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [`import { h } from "betal-fe";`])
-        ])
-      ]),
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["h"])),
+      Para("Creates a virtual DOM node (element, component, or text)."),
+      CodeBlock(`import { h } from "betal-fe";`),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Signature"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [`h(tag, props, children)`])
-        ])
-      ]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Parameter"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["tag"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string | Component"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["HTML tag name or component"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["props"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Attributes, event handlers, etc."])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["children"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["array"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Child nodes"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Signature"),
+      CodeBlock(`h(tag, props, children)`),
+      Table(
+        ["Parameter", "Type", "Description"],
+        [
+          ["tag", "string | Component", "HTML tag name or component"],
+          ["props", "object", "Attributes, event handlers, etc."],
+          ["children", "array", "Child nodes"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Props Object"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Property"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["class"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["CSS class(es)"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["id"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Element ID"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["style"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Inline styles"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["on"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Event handlers"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["key"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string | number"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Unique key for lists"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Props Object"),
+      Table(
+        ["Property", "Type", "Description"],
+        [
+          ["class", "string", "CSS class(es)"],
+          ["id", "string", "Element ID"],
+          ["style", "object", "Inline styles"],
+          ["on", "object", "Event handlers"],
+          ["key", "string | number", "Unique key for lists"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Creating Elements"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`// Simple element
+      Subsection("Creating Elements"),
+      CodeBlock(`// Simple element
 h("div", {}, ["Hello"])
 
 // With attributes
@@ -344,16 +186,10 @@ h("div", {
 // With events
 h("button", {
   on: { click: () => console.log("Clicked!") }
-}, ["Click me"])`
-          ])
-        ])
-      ]),
+}, ["Click me"])`),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Creating Component Instances"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`// Component with props
+      Subsection("Creating Component Instances"),
+      CodeBlock(`// Component with props
 h(MyComponent, { title: "Hello", count: 5 })
 
 // Component with children (for slots)
@@ -366,24 +202,14 @@ h(Card, {}, [
 h(TodoItem, {
   text: "Buy groceries",
   on: { delete: (id) => handleDelete(id) }
-})`
-          ])
-        ])
-      ]),
+})`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // hFragment
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["hFragment"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Creates a fragment - a wrapper that renders children without an extra DOM element."
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { hFragment } from "betal-fe";
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["hFragment"])),
+      Para("Creates a fragment - a wrapper that renders children without an extra DOM element."),
+      CodeBlock(`import { hFragment } from "betal-fe";
 
 const ListItems = defineComponent({
   render() {
@@ -400,54 +226,31 @@ const ListItems = defineComponent({
 h("ul", {}, [
   h(ListItems)
 ])
-// Renders: <ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>`
-          ])
-        ])
-      ]),
+// Renders: <ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // hString
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["hString"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Creates a text node from a string. Usually you don't need this since strings in children arrays are automatically converted."
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { hString } from "betal-fe";
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["hString"])),
+      Para("Creates a text node from a string. Usually you don't need this since strings in children arrays are automatically converted."),
+      CodeBlock(`import { hString } from "betal-fe";
 
 // These are equivalent:
 h("p", {}, ["Hello"])
-h("p", {}, [hString("Hello")])`
-          ])
-        ])
-      ]),
+h("p", {}, [hString("Hello")])`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // hSlot
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["hSlot"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Renders slotted content passed as children to a component."]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { hSlot } from "betal-fe";
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["hSlot"])),
+      Para("Renders slotted content passed as children to a component."),
+      CodeBlock(`import { hSlot } from "betal-fe";
 
 hSlot()           // Renders children passed to component
-hSlot([fallback]) // With fallback content if no children provided`
-          ])
-        ])
-      ]),
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Example"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const Card = defineComponent({
+hSlot([fallback]) // With fallback content if no children provided`),
+      
+      Subsection("Example"),
+      CodeBlock(`const Card = defineComponent({
   render() {
     return h("div", { class: "card" }, [
       h("div", { class: "card-body" }, [
@@ -466,248 +269,106 @@ h(Card, {}, [
 ])
 
 // Usage without content (shows fallback)
-h(Card)`
-          ])
-        ])
-      ]),
+h(Card)`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // HashRouter
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["HashRouter"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["HashRouter"])),
+      Para(
         "Class that provides hash-based routing. Create an instance and pass it to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["createBetalApp"]),
+        Code("createBetalApp"),
         " via the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["options"]),
+        Code("options"),
         " parameter."
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { HashRouter, createBetalApp } from "betal-fe";
+      ),
+      CodeBlock(`import { HashRouter, createBetalApp } from "betal-fe";
 
 const router = new HashRouter(routes);
 const app = createBetalApp(App, {}, { router });
-app.mount(document.getElementById("app"));`
-          ])
-        ])
-      ]),
+app.mount(document.getElementById("app"));`),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Constructor"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [`new HashRouter(routes, options)`])
-        ])
-      ]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Parameter"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["routes"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["array"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Array of route definitions"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["options"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Router options (optional)"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Constructor"),
+      CodeBlock(`new HashRouter(routes, options)`),
+      Table(
+        ["Parameter", "Type", "Description"],
+        [
+          ["routes", "array", "Array of route definitions"],
+          ["options", "object", "Router options (optional)"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Options"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Property"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Default"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["scrollBehavior"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string | boolean | function"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["'top'"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Controls scroll behavior on navigation"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Options"),
+      Table(
+        ["Property", "Type", "Default", "Description"],
+        [
+          ["scrollBehavior", "string | boolean | function", "'top'", "Controls scroll behavior on navigation"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Route Definition"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Property"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["path"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["URL path pattern"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["component"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["Component"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Component to render"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["beforeEnter"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["function"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Route-specific guard (optional)"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["redirect"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Redirect path (optional)"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Route Definition"),
+      Table(
+        ["Property", "Type", "Description"],
+        [
+          ["path", "string", "URL path pattern"],
+          ["component", "Component", "Component to render"],
+          ["beforeEnter", "function", "Route-specific guard (optional)"],
+          ["redirect", "string", "Redirect path (optional)"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Path Patterns"]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["/"]), " - Exact match"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["/users/:id"]), " - Dynamic parameter"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["/posts/:year/:month"]), " - Multiple parameters"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["*"]), " - Catch-all (404)"])
-        ])
-      ]),
+      Subsection("Path Patterns"),
+      BulletList(
+        [Code("/"), " - Exact match"],
+        [Code("/users/:id"), " - Dynamic parameter"],
+        [Code("/posts/:year/:month"), " - Multiple parameters"],
+        [Code("*"), " - Catch-all (404)"]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Methods"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Method"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["navigateTo(path)"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Navigate to a specific path"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["back()"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Go back in browser history"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["forward()"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Go forward in browser history"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Methods"),
+      Table(
+        ["Method", "Description"],
+        [
+          ["navigateTo(path)", "Navigate to a specific path"],
+          ["back()", "Go back in browser history"],
+          ["forward()", "Go forward in browser history"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Properties"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Property"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["matchedRoute"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Currently matched route"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["params"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Current route parameters"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["query"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["object"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Current query string parameters"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Properties"),
+      Table(
+        ["Property", "Type", "Description"],
+        [
+          ["matchedRoute", "object", "Currently matched route"],
+          ["params", "object", "Current route parameters"],
+          ["query", "object", "Current query string parameters"]
+        ]
+      ),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // RouterLink
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["RouterLink"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["RouterLink"])),
+      Para(
         "Component for navigation links. Renders an ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["<a>"]),
+        Code("<a>"),
         " element that prevents default navigation and uses the router's ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["navigateTo"]),
+        Code("navigateTo"),
         " method."
-      ]),
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Props"]),
-      h("div", { class: "mt-4 overflow-x-auto" }, [
-        h("table", { class: "min-w-full text-sm" }, [
-          h("thead", {}, [
-            h("tr", { class: "border-b border-neutral-800" }, [
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Prop"]),
-              h("th", { class: "py-2 pr-4 text-left font-semibold text-white" }, ["Type"]),
-              h("th", { class: "py-2 text-left font-semibold text-white" }, ["Description"])
-            ])
-          ]),
-          h("tbody", {}, [
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["to"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Target path (can include anchor fragments)"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["class"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["string"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["CSS classes to apply"])
-            ]),
-            h("tr", { class: "border-b border-neutral-800/50" }, [
-              h("td", { class: "py-2 pr-4 font-mono text-primary" }, ["...rest"]),
-              h("td", { class: "py-2 pr-4 text-neutral-400" }, ["any"]),
-              h("td", { class: "py-2 text-neutral-300" }, ["Any other attributes passed to anchor"])
-            ])
-          ])
-        ])
-      ]),
+      Subsection("Props"),
+      Table(
+        ["Prop", "Type", "Description"],
+        [
+          ["to", "string", "Target path (can include anchor fragments)"],
+          ["class", "string", "CSS classes to apply"],
+          ["...rest", "any", "Any other attributes passed to anchor"]
+        ]
+      ),
 
-      h("h3", { class: "mt-6 text-xl font-semibold text-white" }, ["Example"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`h(RouterLink, { to: "/about" }, ["About Us"])
+      Subsection("Example"),
+      CodeBlock(`h(RouterLink, { to: "/about" }, ["About Us"])
 h(RouterLink, { to: "/users/123" }, ["User Profile"])
 h(RouterLink, { to: "/search?q=hello" }, ["Search"])
 
@@ -719,26 +380,18 @@ h(RouterLink, { to: "#features" }, ["Jump to Features"])
 h(RouterLink, { 
   to: "/about", 
   class: "nav-link active"
-}, ["About"])`
-          ])
-        ])
-      ]),
+}, ["About"])`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // RouterOutlet
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["RouterOutlet"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["RouterOutlet"])),
+      Para(
         "Component that renders the matched route's component. Must be used with a HashRouter passed to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["createBetalApp"]),
+        Code("createBetalApp"),
         " options."
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`const App = defineComponent({
+      ),
+      CodeBlock(`const App = defineComponent({
   render() {
     return h("div", {}, [
       h("header", {}, ["My App"]),
@@ -746,24 +399,14 @@ h(RouterLink, {
       h("footer", {}, ["© 2024"])
     ]);
   }
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // nextTick
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, [
-        h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["nextTick"])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
-        "Schedules code to run after the next DOM update. Returns a Promise that resolves after updates are flushed."
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import { nextTick } from "betal-fe";
+      Section(h("code", { class: "rounded bg-neutral-900 px-2 py-1 text-lg font-mono text-primary" }, ["nextTick"])),
+      Para("Schedules code to run after the next DOM update. Returns a Promise that resolves after updates are flushed."),
+      CodeBlock(`import { nextTick } from "betal-fe";
 
 const InputWithFocus = defineComponent({
   state() {
@@ -787,20 +430,14 @@ const InputWithFocus = defineComponent({
         : h("button", { on: { click: () => this.showAndFocus() } }, ["Show Input"])
     ]);
   }
-});`
-          ])
-        ])
-      ]),
+});`),
 
-      h("hr", { class: "my-10 border-neutral-800" }),
+      Divider(),
 
       // Complete Import
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Complete Import"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["All exports from Betal-FE:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
-`import {
+      Section("Complete Import"),
+      Para("All exports from Betal-FE:"),
+      CodeBlock(`import {
   createBetalApp,
   defineComponent,
   h,
@@ -811,10 +448,7 @@ const InputWithFocus = defineComponent({
   RouterLink,
   RouterOutlet,
   nextTick
-} from "betal-fe";`
-          ])
-        ])
-      ])
+} from "betal-fe";`)
     ]);
   }
 });

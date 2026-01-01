@@ -1,4 +1,5 @@
 import { defineComponent, h } from 'betal-fe';
+import { Section, Para, Strong, Code, BulletList, NumberedList, ListItemWithBold, CodeBlock, Subsection } from '../../components/docs/DocElements.js';
 
 export const EventsPage = defineComponent({
   onMounted() {
@@ -8,70 +9,43 @@ export const EventsPage = defineComponent({
   render() {
     return h("article", { class: "prose prose-invert max-w-none" }, [
       h("h1", { class: "text-3xl font-bold tracking-tight text-white sm:text-4xl" }, ["Handling Events"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Para(
         "Interactive applications respond to user actions - clicks, key presses, form submissions, and more. This section teaches you how to handle events in Betal-FE and how components communicate with each other."
-      ]),
+      ),
 
       // Event Basics
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Event Basics"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Event Basics"),
+      Para(
         "In Betal-FE, you attach event handlers using the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["on"]),
+        Code("on"),
         " property in your element's props:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      CodeBlock(
 `h("button", {
   on: { click: () => console.log("Button clicked!") }
 }, ["Click me"])`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "The ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["on"]),
+        Code("on"),
         " property is an object where keys are event names and values are handler functions. Common events include:"
-      ]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["click"]), " - User clicks an element"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["input"]), " - User types in an input field"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["change"]), " - Input value changes (fires on blur)"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["submit"]), " - Form is submitted"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["keydown"]), " / ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["keyup"]), " - Keyboard events"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["mouseenter"]), " / ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["mouseleave"]), " - Mouse hover events"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, [h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["focus"]), " / ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["blur"]), " - Element gains/loses focus"])
-        ])
-      ]),
+      ),
+      BulletList(
+        [Code("click"), " - User clicks an element"],
+        [Code("input"), " - User types in an input field"],
+        [Code("change"), " - Input value changes (fires on blur)"],
+        [Code("submit"), " - Form is submitted"],
+        [Code("keydown"), " / ", Code("keyup"), " - Keyboard events"],
+        [Code("mouseenter"), " / ", Code("mouseleave"), " - Mouse hover events"],
+        [Code("focus"), " / ", Code("blur"), " - Element gains/loses focus"]
+      ),
 
       // Working with Event Objects
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Working with Event Objects"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Working with Event Objects"),
+      Para(
         "Event handlers receive the native DOM event as their first argument:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      CodeBlock(
 `h("input", {
   on: {
     input: (event) => {
@@ -79,16 +53,12 @@ export const EventsPage = defineComponent({
     }
   }
 })`
-          ])
-        ])
-      ]),
+      ),
 
       // Handling Form Input
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Handling Form Input"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["A common pattern is to sync input values with component state:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Handling Form Input"),
+      Para("A common pattern is to sync input values with component state:"),
+      CodeBlock(
 `const SearchBox = defineComponent({
   state() {
     return { query: "" };
@@ -105,19 +75,15 @@ export const EventsPage = defineComponent({
     });
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "This creates a \"controlled input\" - the input's value is controlled by state. When the user types, we update state, which causes a re-render, which updates the input to show the new value."
-      ]),
+      ),
 
       // Form Submission
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Form Submission"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["When handling forms, prevent the default submission behavior:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Form Submission"),
+      Para("When handling forms, prevent the default submission behavior:"),
+      CodeBlock(
 `const ContactForm = defineComponent({
   state() {
     return { name: "", email: "", message: "" };
@@ -156,16 +122,12 @@ export const EventsPage = defineComponent({
     ]);
   }
 });`
-          ])
-        ])
-      ]),
+      ),
 
       // Using Component Methods
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Using Component Methods"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["For cleaner code, define event handlers as component methods:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Using Component Methods"),
+      Para("For cleaner code, define event handlers as component methods:"),
+      CodeBlock(
 `const Counter = defineComponent({
   state() {
     return { count: 0 };
@@ -187,27 +149,23 @@ export const EventsPage = defineComponent({
     ]);
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "This keeps render clean and makes the logic easy to find."
-      ]),
+      ),
 
       // Child-to-Parent Communication
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Child-to-Parent Communication"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Child-to-Parent Communication"),
+      Para(
         "Props flow down from parent to child, but sometimes children need to communicate back up. Betal-FE provides the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["emit"]),
+        Code("emit"),
         " method for this."
-      ]),
+      ),
 
       // Emitting Events from Children
-      h("h3", { class: "mt-8 text-xl font-semibold text-white" }, ["Emitting Events from Children"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["A child component can emit custom events:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Subsection("Emitting Events from Children"),
+      Para("A child component can emit custom events:"),
+      CodeBlock(
 `const TodoItem = defineComponent({
   handleDelete() {
     // Emit a "delete" event with the item's id
@@ -231,20 +189,16 @@ export const EventsPage = defineComponent({
     ]);
   }
 });`
-          ])
-        ])
-      ]),
+      ),
 
       // Listening to Child Events
-      h("h3", { class: "mt-8 text-xl font-semibold text-white" }, ["Listening to Child Events"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Subsection("Listening to Child Events"),
+      Para(
         "The parent listens using the ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["on"]),
+        Code("on"),
         " prop:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      CodeBlock(
 `const TodoList = defineComponent({
   state() {
     return {
@@ -286,23 +240,19 @@ export const EventsPage = defineComponent({
     );
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "This pattern keeps the parent in control of the data while letting children trigger actions."
-      ]),
+      ),
 
       // Passing Callbacks as Props
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Passing Callbacks as Props"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Passing Callbacks as Props"),
+      Para(
         "An alternative to ",
-        h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["emit"]),
+        Code("emit"),
         " is passing callback functions as props:"
-      ]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      ),
+      CodeBlock(
 `// Parent
 const Parent = defineComponent({
   state() {
@@ -335,19 +285,15 @@ const Input = defineComponent({
     });
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "Both approaches work. Use whichever feels clearer for your situation."
-      ]),
+      ),
 
       // Keyboard Events
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Keyboard Events"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Handle keyboard interactions:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Keyboard Events"),
+      Para("Handle keyboard interactions:"),
+      CodeBlock(
 `const SearchBox = defineComponent({
   state() {
     return { query: "" };
@@ -375,16 +321,12 @@ const Input = defineComponent({
     });
   }
 });`
-          ])
-        ])
-      ]),
+      ),
 
       // Event Delegation
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Event Delegation"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["When rendering lists, you might want to handle events at the parent level:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Event Delegation"),
+      Para("When rendering lists, you might want to handle events at the parent level:"),
+      CodeBlock(
 `const List = defineComponent({
   handleClick(event) {
     // Check what was clicked using data attributes
@@ -404,19 +346,15 @@ const Input = defineComponent({
     );
   }
 });`
-          ])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      ),
+      Para(
         "This attaches one handler to the parent instead of many handlers to children, which can be more efficient for large lists."
-      ]),
+      ),
 
       // Conditional Event Handling
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Conditional Event Handling"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["Sometimes you want to conditionally prevent certain actions:"]),
-      h("div", { class: "mt-4 overflow-hidden rounded-lg border border-neutral-800 bg-neutral-950" }, [
-        h("pre", { class: "overflow-x-auto p-4" }, [
-          h("code", { class: "language-javascript text-sm" }, [
+      Section("Conditional Event Handling"),
+      Para("Sometimes you want to conditionally prevent certain actions:"),
+      CodeBlock(
 `const Button = defineComponent({
   handleClick() {
     if (this.props.disabled) {
@@ -432,42 +370,22 @@ const Input = defineComponent({
     }, [this.props.label]);
   }
 });`
-          ])
-        ])
-      ]),
+      ),
 
       // Summary
-      h("h2", { class: "mt-10 text-2xl font-semibold text-white" }, ["Summary"]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, ["You've learned how to make your components interactive:"]),
-      h("ul", { class: "mt-4 space-y-2 text-neutral-300" }, [
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Attach event handlers using the ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["on"]), " property"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Access event data through the event object"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Create controlled form inputs"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Use ", h("code", { class: "rounded bg-neutral-900 px-1.5 py-0.5 text-sm font-mono text-primary" }, ["emit"]), " for child-to-parent communication"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Pass callback props as an alternative to emit"])
-        ]),
-        h("li", { class: "flex gap-2" }, [
-          h("span", { class: "mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" }),
-          h("span", {}, ["Handle keyboard and other events"])
-        ])
-      ]),
-      h("p", { class: "mt-4 leading-7 text-neutral-300" }, [
+      Section("Summary"),
+      Para("You've learned how to make your components interactive:"),
+      BulletList(
+        ["Attach event handlers using the ", Code("on"), " property"],
+        "Access event data through the event object",
+        "Create controlled form inputs",
+        ["Use ", Code("emit"), " for child-to-parent communication"],
+        "Pass callback props as an alternative to emit",
+        "Handle keyboard and other events"
+      ),
+      Para(
         "The key insight is that events trigger state changes, which trigger re-renders. This unidirectional data flow makes your application predictable and easy to debug."
-      ]),
+      ),
 
       // Navigation
       h("div", { class: "mt-10 flex gap-4" }, [
